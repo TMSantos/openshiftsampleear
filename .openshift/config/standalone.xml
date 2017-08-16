@@ -152,7 +152,7 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/employee" pool-name="employee-pool" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:postgresql://localhost/employee</connection-url>
+                    <connection-url>jdbc:postgresql://${env.OPENSHIFT_MYSQL_DB_HOST}:${env.OPENSHIFT_MYSQL_DB_PORT}/employee</connection-url>
                     <driver>postgres</driver>
                     <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
                     <pool>
@@ -160,10 +160,12 @@
                         <max-pool-size>30</max-pool-size>
                         <prefill>true</prefill>
                         <use-strict-min>false</use-strict-min>
-                        <flush-strategy>FailingConnectionOnly</flush-strategy>
+                        <flush-strategy>IdleConnections</flush-strategy>
+                        <allow-multiple-users/>
                     </pool>
-                    <security>
-                        <user-name>tiago</user-name>
+                     <security>
+                        <user-name>${env.OPENSHIFT_MYSQL_DB_USERNAME}</user-name>
+                        <password>${env.OPENSHIFT_MYSQL_DB_PASSWORD}</password>
                     </security>
                     <statement>
                         <prepared-statement-cache-size>32</prepared-statement-cache-size>
